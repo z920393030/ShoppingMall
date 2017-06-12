@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.atguigu.shoppingmall.R;
 import com.atguigu.shoppingmall.home.bean.HomeBean;
 import com.atguigu.shoppingmall.home.utils.GlideImageLoader;
+import com.atguigu.shoppingmall.home.view.NoScrollGridView;
 import com.atguigu.shoppingmall.utils.ConstantsUtils;
 import com.youth.banner.Banner;
 import com.youth.banner.listener.OnBannerListener;
@@ -75,7 +76,7 @@ public class HomeAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return 4;
+        return 6;
     }
 
     @Override
@@ -107,11 +108,11 @@ public class HomeAdapter extends RecyclerView.Adapter {
             return new ActViewHolder(context, inflate.inflate(R.layout.act_item, null));
         } else if (viewType == SECKILL) {
             return new SeckillViewHolder(context, inflate.inflate(R.layout.seckill_item, null));
-        } /*else if (viewType == RECOMMEND) {
-            return new RecommendViewHolder(mContext, inflater.inflate(R.layout.recommend_item, null));
+        } else if (viewType == RECOMMEND) {
+            return new RecommendViewHolder(context, inflate.inflate(R.layout.recommend_item, null));
         } else if (viewType == HOT) {
-            return new HotViewHolder(mContext, inflater.inflate(R.layout.hot_item, null));
-        }*/
+            return new HotViewHolder(context, inflate.inflate(R.layout.hot_item, null));
+        }
 
         return null;
 
@@ -121,7 +122,6 @@ public class HomeAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == BANNER) {
             BannerViewHolder bannerViewHolder = (BannerViewHolder) holder;
-            //设置数据Banner的数据
             bannerViewHolder.setData(datas.getBanner_info());
         } else if (getItemViewType(position) == CHANNEL) {
             ChannelViewHolder channelViewHolder = (ChannelViewHolder) holder;
@@ -132,13 +132,13 @@ public class HomeAdapter extends RecyclerView.Adapter {
         } else if (getItemViewType(position) == SECKILL) {
             SeckillViewHolder seckillViewHolder = (SeckillViewHolder) holder;
             seckillViewHolder.setData(datas.getSeckill_info());
-        } /*else if (getItemViewType(position) == RECOMMEND) {
+        } else if (getItemViewType(position) == RECOMMEND) {
             RecommendViewHolder recommendViewHolder = (RecommendViewHolder) holder;
-            recommendViewHolder.setData(resultBean.getRecommend_info());
+            recommendViewHolder.setData(datas.getRecommend_info());
         } else if (getItemViewType(position) == HOT) {
             HotViewHolder hotViewHolder = (HotViewHolder) holder;
-            hotViewHolder.setData(resultBean.getHot_info());
-        }*/
+            hotViewHolder.setData(datas.getHot_info());
+        }
 
     }
 
@@ -249,6 +249,42 @@ public class HomeAdapter extends RecyclerView.Adapter {
 
             long time = Long.parseLong(seckill_info.getEnd_time()) - Long.parseLong(seckill_info.getStart_time());
             countdownView.start(time);
+        }
+    }
+
+    private class RecommendViewHolder extends RecyclerView.ViewHolder {
+        private final Context mContext;
+        private GridView gv;
+
+        public RecommendViewHolder(Context context, View itemView) {
+            super(itemView);
+            this.mContext = context;
+            gv = (GridView) itemView.findViewById(R.id.gv_recommend);
+        }
+
+
+        public void setData(List<HomeBean.ResultBean.RecommendInfoBean> recommend_info) {
+            RecommendGridViewAdapter adapter = new RecommendGridViewAdapter(mContext,recommend_info);
+
+            gv.setAdapter(adapter);
+        }
+    }
+
+    private class HotViewHolder extends RecyclerView.ViewHolder {
+        private final Context mContext;
+        private NoScrollGridView gvhot;
+
+        public HotViewHolder(Context context, View itemView) {
+            super(itemView);
+            this.mContext=context;
+            gvhot= (NoScrollGridView) itemView.findViewById(R.id.gv_hot);
+        }
+
+        public void setData(List<HomeBean.ResultBean.HotInfoBean> hot_info) {
+
+            HotGridViewAdapter adapter = new HotGridViewAdapter(mContext,hot_info);
+
+            gvhot.setAdapter(adapter);
         }
     }
 }

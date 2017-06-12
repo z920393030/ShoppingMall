@@ -1,4 +1,4 @@
-package com.atguigu.shoppingmall.fragment;
+package com.atguigu.shoppingmall.User.fragment;
 
 import android.graphics.Color;
 import android.util.Log;

@@ -1,4 +1,4 @@
-package com.atguigu.shoppingmall;
+package com.atguigu.shoppingmall.home.acyivity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,23 +7,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
 
+import com.atguigu.shoppingmall.Community.fragment.CommunityFragment;
+import com.atguigu.shoppingmall.R;
+import com.atguigu.shoppingmall.ShoppingCart.fragment.ShoppingCartFragment;
+import com.atguigu.shoppingmall.Type.fragment.TypeFragment;
+import com.atguigu.shoppingmall.User.fragment.UserFragment;
 import com.atguigu.shoppingmall.base.BaseFragment;
-import com.atguigu.shoppingmall.fragment.CommunityFragment;
-import com.atguigu.shoppingmall.fragment.HomeFragment;
-import com.atguigu.shoppingmall.fragment.ShoppingCartFragment;
-import com.atguigu.shoppingmall.fragment.TypeFragment;
-import com.atguigu.shoppingmall.fragment.UserFragment;
+import com.atguigu.shoppingmall.home.fragment.HomeFragment;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class MainActivity extends AppCompatActivity {
 
-    @InjectView(R.id.fl_main)
+    @BindView(R.id.fl_main)
     FrameLayout flMain;
-    @InjectView(R.id.rg_main)
+    @BindView(R.id.rg_main)
     RadioGroup rgMain;
     private ArrayList<BaseFragment> fragments;
     private int position;
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
 
 
         initFragment();
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         rgMain.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId){
+                switch (checkedId) {
                     case R.id.rb_home:
                         position = 0;
                         break;
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 Fragment currentFragment = fragments.get(position);
-                switchFragment (currentFragment);
+                switchFragment(currentFragment);
             }
         });
 
@@ -74,18 +75,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void switchFragment(Fragment currentFragment) {
-        if(tempFragment != currentFragment){
+        if (tempFragment != currentFragment) {
 
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            if(!currentFragment.isAdded()){
-                if(tempFragment != null){
+            if (!currentFragment.isAdded()) {
+                if (tempFragment != null) {
                     ft.hide(tempFragment);
                 }
 
-                ft.add(R.id.fl_main,currentFragment);
+                ft.add(R.id.fl_main, currentFragment);
 
-            }else{
-                if(tempFragment != null){
+            } else {
+                if (tempFragment != null) {
                     ft.hide(tempFragment);
                 }
 

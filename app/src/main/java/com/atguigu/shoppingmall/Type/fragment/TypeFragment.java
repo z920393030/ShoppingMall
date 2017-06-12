@@ -1,4 +1,4 @@
-package com.atguigu.shoppingmall.fragment;
+package com.atguigu.shoppingmall.Type.fragment;
 
 import android.graphics.Color;
 import android.util.Log;
@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.atguigu.shoppingmall.base.BaseFragment;
 
 
-public class HomeFragment extends BaseFragment {
+public class TypeFragment extends BaseFragment {
     private TextView textView;
     @Override
     public View initView() {
@@ -23,7 +23,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void initData() {
         super.initData();
-        Log.e("TAG","主页的数据被初始化了...");
-        textView.setText("主页内容");
+        Log.e("TAG","分类的数据被初始化了...");
+        textView.setText("分类内容");
     }
 }

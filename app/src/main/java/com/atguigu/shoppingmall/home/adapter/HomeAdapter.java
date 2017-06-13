@@ -303,10 +303,17 @@ public class HomeAdapter extends RecyclerView.Adapter {
         }
 
 
-        public void setData(List<HomeBean.ResultBean.RecommendInfoBean> recommend_info) {
+        public void setData(final List<HomeBean.ResultBean.RecommendInfoBean> recommend_info) {
             RecommendGridViewAdapter adapter = new RecommendGridViewAdapter(mContext, recommend_info);
 
             gv.setAdapter(adapter);
+
+            gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Toast.makeText(mContext, ""+recommend_info.get(position).getName(), Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 
@@ -320,11 +327,17 @@ public class HomeAdapter extends RecyclerView.Adapter {
             gvhot = (NoScrollGridView) itemView.findViewById(R.id.gv_hot);
         }
 
-        public void setData(List<HomeBean.ResultBean.HotInfoBean> hot_info) {
+        public void setData(final List<HomeBean.ResultBean.HotInfoBean> hot_info) {
 
             HotGridViewAdapter adapter = new HotGridViewAdapter(mContext, hot_info);
 
             gvhot.setAdapter(adapter);
+            gvhot.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Toast.makeText(mContext, ""+hot_info.get(position).getName(), Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 }

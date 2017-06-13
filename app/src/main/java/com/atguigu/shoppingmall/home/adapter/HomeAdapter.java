@@ -1,6 +1,7 @@
 package com.atguigu.shoppingmall.home.adapter;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.atguigu.shoppingmall.R;
@@ -23,6 +25,8 @@ import com.youth.banner.transformer.RotateDownTransformer;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cn.iwgang.countdownview.CountdownView;
 
 
@@ -65,7 +69,9 @@ public class HomeAdapter extends RecyclerView.Adapter {
      * 当前类型
      */
     public int currentType = BANNER;
+
     private LayoutInflater inflate;
+
 
 
     public HomeAdapter(Context mContext, HomeBean.ResultBean datas) {
@@ -222,20 +228,28 @@ public class HomeAdapter extends RecyclerView.Adapter {
         }
     }
 
-    private class SeckillViewHolder extends RecyclerView.ViewHolder {
+    private boolean isFrist = false;
+
+    class SeckillViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.countdownview)
+        CountdownView countdownview;
+        @BindView(R.id.tv_more_seckill)
+        TextView tvMoreSeckill;
+        @BindView(R.id.rv_seckill)
+        RecyclerView rv;
+        private Handler mHandler = new Handler();
         private final Context mContext;
-        private RecyclerView rv;
-        private CountdownView countdownView;
+        private HomeBean.ResultBean.SeckillInfoBean seckillInfo;
 
         public SeckillViewHolder(Context context, View itemView) {
             super(itemView);
             this.mContext = context;
-            rv = (RecyclerView) itemView.findViewById(R.id.rv_seckill);
-            countdownView= (CountdownView) itemView.findViewById(R.id.countdownview);
+            ButterKnife.bind(this,itemView);
 
         }
 
         public void setData(HomeBean.ResultBean.SeckillInfoBean seckill_info) {
+            this.seckillInfo = seckill_info;
             SeckillViewAdapter adapter = new SeckillViewAdapter(mContext, seckill_info);
             rv.setAdapter(adapter);
             rv.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
@@ -247,10 +261,36 @@ public class HomeAdapter extends RecyclerView.Adapter {
                 }
             });
 
-            long time = Long.parseLong(seckill_info.getEnd_time()) - Long.parseLong(seckill_info.getStart_time());
-            countdownView.start(time);
+            if (!isFrist) {
+                isFrist = true;
+                long totalTime = Long.parseLong(seckillInfo.getEnd_time()) - Long.parseLong(seckillInfo.getStart_time());
+                long curTime = System.currentTimeMillis();
+                seckillInfo.setEnd_time((curTime + totalTime + ""));
+                startRefreshTime();
+            }
+
+
         }
+
+        private void startRefreshTime() {
+
+            mHandler.postDelayed(mRefreshTimeRunnable, 10);
+        }
+
+        Runnable mRefreshTimeRunnable = new Runnable() {
+            @Override
+            public void run() {
+                long currentTime = System.currentTimeMillis();
+                if (currentTime >= Long.parseLong(seckillInfo.getEnd_time())) {
+                    mHandler.removeCallbacksAndMessages(null);
+                } else {
+                    countdownview.updateShow(Long.parseLong(seckillInfo.getEnd_time()) - currentTime);
+                    mHandler.postDelayed(mRefreshTimeRunnable, 1000);
+                }
+            }
+        };
     }
+
 
     private class RecommendViewHolder extends RecyclerView.ViewHolder {
         private final Context mContext;
@@ -264,7 +304,7 @@ public class HomeAdapter extends RecyclerView.Adapter {
 
 
         public void setData(List<HomeBean.ResultBean.RecommendInfoBean> recommend_info) {
-            RecommendGridViewAdapter adapter = new RecommendGridViewAdapter(mContext,recommend_info);
+            RecommendGridViewAdapter adapter = new RecommendGridViewAdapter(mContext, recommend_info);
 
             gv.setAdapter(adapter);
         }
@@ -276,13 +316,13 @@ public class HomeAdapter extends RecyclerView.Adapter {
 
         public HotViewHolder(Context context, View itemView) {
             super(itemView);
-            this.mContext=context;
-            gvhot= (NoScrollGridView) itemView.findViewById(R.id.gv_hot);
+            this.mContext = context;
+            gvhot = (NoScrollGridView) itemView.findViewById(R.id.gv_hot);
         }
 
         public void setData(List<HomeBean.ResultBean.HotInfoBean> hot_info) {
 
-            HotGridViewAdapter adapter = new HotGridViewAdapter(mContext,hot_info);
+            HotGridViewAdapter adapter = new HotGridViewAdapter(mContext, hot_info);
 
             gvhot.setAdapter(adapter);
         }

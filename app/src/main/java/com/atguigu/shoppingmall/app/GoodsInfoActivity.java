@@ -156,7 +156,7 @@ public class GoodsInfoActivity extends AppCompatActivity {
                 Toast.makeText(GoodsInfoActivity.this, "搜索", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tv_more_home:
-                Toast.makeText(GoodsInfoActivity.this, "主页", Toast.LENGTH_SHORT).show();
+                finish();
                 break;
             case R.id.btn_more:
                 llRoot.setVisibility(View.GONE);

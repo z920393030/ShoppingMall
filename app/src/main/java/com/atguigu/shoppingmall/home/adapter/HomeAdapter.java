@@ -1,6 +1,7 @@
 package com.atguigu.shoppingmall.home.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,9 +15,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.atguigu.shoppingmall.R;
+import com.atguigu.shoppingmall.app.GoodsInfoActivity;
 import com.atguigu.shoppingmall.home.bean.HomeBean;
 import com.atguigu.shoppingmall.home.utils.GlideImageLoader;
-import com.atguigu.shoppingmall.home.view.NoScrollGridView;
+import com.atguigu.shoppingmall.home.view.MyGridView;
 import com.atguigu.shoppingmall.utils.ConstantsUtils;
 import com.youth.banner.Banner;
 import com.youth.banner.listener.OnBannerListener;
@@ -319,12 +321,12 @@ public class HomeAdapter extends RecyclerView.Adapter {
 
     private class HotViewHolder extends RecyclerView.ViewHolder {
         private final Context mContext;
-        private NoScrollGridView gvhot;
+        private MyGridView gvhot;
 
         public HotViewHolder(Context context, View itemView) {
             super(itemView);
             this.mContext = context;
-            gvhot = (NoScrollGridView) itemView.findViewById(R.id.gv_hot);
+            gvhot = (MyGridView) itemView.findViewById(R.id.gv_hot);
         }
 
         public void setData(final List<HomeBean.ResultBean.HotInfoBean> hot_info) {
@@ -335,7 +337,9 @@ public class HomeAdapter extends RecyclerView.Adapter {
             gvhot.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Toast.makeText(mContext, ""+hot_info.get(position).getName(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(mContext, ""+hot_info.get(position).getName(), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(mContext, GoodsInfoActivity.class);
+                    mContext.startActivity(intent);
                 }
             });
         }

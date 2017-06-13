@@ -9,11 +9,11 @@ import android.widget.GridView;
  * Created by My on 2017/6/12.
  */
 
-public class NoScrollGridView extends GridView {
-    public NoScrollGridView(Context context) {
+public class MyGridView extends GridView {
+    public MyGridView(Context context) {
         super(context);
     }
-    public NoScrollGridView(Context context, AttributeSet attrs) {
+    public MyGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 

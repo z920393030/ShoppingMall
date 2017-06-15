@@ -21,6 +21,26 @@ public class GoodsBean implements Serializable {
     private String name;
     private String product_id;
 
+    private int number = 1;
+
+    private boolean isChecked = true;
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
     public String getCover_price() {
         return cover_price;
     }
